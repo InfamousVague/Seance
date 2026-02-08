@@ -1,26 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { WispProvider } from "@wisp/ui";
+import { SettingsProvider, useSettings } from "./context/SettingsContext";
+import { App } from "./App.web";
 
-function App() {
-  return (
-    <div
-      style={{
-        height: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "#0A0E15",
-        color: "#F7F8FA",
-        fontFamily: "'Plus Jakarta Sans', sans-serif",
-      }}
-    >
-      <h1>Séance</h1>
-    </div>
-  );
+function WispThemeBridge({ children }: { children: React.ReactNode }) {
+  const { settings } = useSettings();
+  return <WispProvider mode={settings.theme}>{children}</WispProvider>;
 }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App />
+    <SettingsProvider>
+      <WispThemeBridge>
+        <App />
+      </WispThemeBridge>
+    </SettingsProvider>
   </React.StrictMode>
 );
