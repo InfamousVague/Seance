@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { useThemeColors, Text } from "@wisp/ui";
+import { useThemeColors, Text, VStack } from "@wisp/ui";
 import { Edit3, FolderOpen } from "lucide-react";
 import { AppSidebar } from "./components/sidebar/AppSidebar";
 import { FileTree } from "./components/sidebar/FileTree";
@@ -7,6 +7,7 @@ import { MarkdownEditor } from "./components/editor/MarkdownEditor";
 import { useSettings } from "./context/SettingsContext";
 import { useFileTree } from "./context/FileTreeContext";
 import { useAutoSave } from "./hooks/useAutoSave";
+import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
 import { SettingsModal } from "./components/settings/SettingsModal";
 
 export function App() {
@@ -43,6 +44,13 @@ export function App() {
     }
   }, [createFolder]);
 
+  const handleForceSave = useCallback(() => {
+    if (selectedFile) {
+      // eslint-disable-next-line no-console
+      console.log(`[Séance] Force saved: ${selectedFile}`);
+    }
+  }, [selectedFile]);
+
   const handleContentChange = useCallback(
     (content: string) => {
       if (selectedFile) {
@@ -51,6 +59,14 @@ export function App() {
     },
     [selectedFile, updateFileContent]
   );
+
+  // Global keyboard shortcuts
+  useKeyboardShortcuts({
+    onNewFile: handleNewFile,
+    onNewFolder: handleNewFolder,
+    onForceSave: handleForceSave,
+    onOpenSettings: () => setSettingsOpen(true),
+  });
 
   return (
     <div
@@ -90,18 +106,18 @@ export function App() {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              flexDirection: "column",
-              gap: 12,
             }}
           >
-            <FolderOpen
-              size={32}
-              color={colors.text.muted}
-              strokeWidth={1.5}
-            />
-            <Text size="sm" color="tertiary">
-              Open a folder to get started
-            </Text>
+            <VStack gap="sm" align="center">
+              <FolderOpen
+                size={32}
+                color={colors.text.muted}
+                strokeWidth={1.5}
+              />
+              <Text size="sm" color="tertiary">
+                Open a folder to get started
+              </Text>
+            </VStack>
           </div>
         ) : selectedFile ? (
           /* File selected — CodeMirror editor */
@@ -117,14 +133,18 @@ export function App() {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              flexDirection: "column",
-              gap: 12,
             }}
           >
-            <Edit3 size={32} color={colors.text.muted} strokeWidth={1.5} />
-            <Text size="sm" color="tertiary">
-              Select a file to begin editing
-            </Text>
+            <VStack gap="sm" align="center">
+              <Edit3
+                size={32}
+                color={colors.text.muted}
+                strokeWidth={1.5}
+              />
+              <Text size="sm" color="tertiary">
+                Select a file to begin editing
+              </Text>
+            </VStack>
           </div>
         )}
       </main>
