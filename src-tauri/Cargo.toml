@@ -1,0 +1,33 @@
+[package]
+name = "seance-desktop"
+version = "0.1.0"
+description = "Séance — Ghost-themed Markdown Note-Taking App"
+authors = ["InfamousVague"]
+license = "MIT"
+edition = "2021"
+rust-version = "1.70"
+
+[lib]
+name = "seance_desktop_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.0", features = [] }
+
+[dependencies]
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+tauri = { version = "2.1", features = ["devtools"] }
+tauri-plugin-shell = "2.0"
+tauri-plugin-window-state = "2.0"
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+lto = true
+opt-level = "z"
+strip = true
