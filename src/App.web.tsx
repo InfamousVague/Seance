@@ -3,14 +3,25 @@ import { useThemeColors, Text } from "@wisp/ui";
 import { Edit3, FolderOpen } from "lucide-react";
 import { AppSidebar } from "./components/sidebar/AppSidebar";
 import { FileTree } from "./components/sidebar/FileTree";
+import { MarkdownEditor } from "./components/editor/MarkdownEditor";
 import { useSettings } from "./context/SettingsContext";
 import { useFileTree } from "./context/FileTreeContext";
+import { useAutoSave } from "./hooks/useAutoSave";
 
 export function App() {
   const colors = useThemeColors();
   const { settings, updateSettings } = useSettings();
-  const { selectedFile, fileContent, createFile, createFolder } = useFileTree();
+  const {
+    selectedFile,
+    fileContent,
+    createFile,
+    createFolder,
+    updateFileContent,
+  } = useFileTree();
   const [settingsOpen, setSettingsOpen] = useState(false);
+
+  // Auto-save hook — logs to console for now
+  useAutoSave(selectedFile, fileContent);
 
   const handleOpenFolder = useCallback(() => {
     // Mock: set a fake vault path for now
@@ -30,6 +41,15 @@ export function App() {
       createFolder("", name);
     }
   }, [createFolder]);
+
+  const handleContentChange = useCallback(
+    (content: string) => {
+      if (selectedFile) {
+        updateFileContent(selectedFile, content);
+      }
+    },
+    [selectedFile, updateFileContent]
+  );
 
   return (
     <div
@@ -73,37 +93,21 @@ export function App() {
               gap: 12,
             }}
           >
-            <FolderOpen size={32} color={colors.text.muted} strokeWidth={1.5} />
+            <FolderOpen
+              size={32}
+              color={colors.text.muted}
+              strokeWidth={1.5}
+            />
             <Text size="sm" color="tertiary">
               Open a folder to get started
             </Text>
           </div>
         ) : selectedFile ? (
-          /* File selected — show content preview (CodeMirror in Phase 6) */
-          <div
-            style={{
-              flex: 1,
-              overflow: "auto",
-              padding: 32,
-            }}
-          >
-            <pre
-              style={{
-                fontFamily:
-                  settings.editorFont === "mono"
-                    ? "'JetBrains Mono', monospace"
-                    : "'Plus Jakarta Sans', sans-serif",
-                fontSize: settings.fontSize,
-                lineHeight: 1.7,
-                color: colors.text.primary,
-                whiteSpace: "pre-wrap",
-                wordBreak: "break-word",
-                margin: 0,
-              }}
-            >
-              {fileContent}
-            </pre>
-          </div>
+          /* File selected — CodeMirror editor */
+          <MarkdownEditor
+            content={fileContent}
+            onChange={handleContentChange}
+          />
         ) : (
           /* Vault open but no file selected */
           <div

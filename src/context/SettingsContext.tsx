@@ -20,7 +20,7 @@ export interface Settings {
 const STORAGE_KEY = "seance-settings";
 
 const defaultSettings: Settings = {
-  theme: "dark",
+  theme: "light",
   fontSize: 14,
   editorFont: "mono",
   autoSave: true,
