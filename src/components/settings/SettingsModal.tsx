@@ -59,7 +59,7 @@ export function SettingsModal({ open, onClose }: SettingsModalProps) {
     >
       <VStack gap="lg">
         {/* Theme */}
-        <FormField
+        <FormField onSurface
           label="Theme"
           description="Switch between light and dark mode"
           orientation="horizontal"
@@ -77,7 +77,7 @@ export function SettingsModal({ open, onClose }: SettingsModalProps) {
         <Separator />
 
         {/* Font Size */}
-        <FormField
+        <FormField onSurface
           label="Font Size"
           description="Editor text size in pixels"
         >
@@ -96,7 +96,7 @@ export function SettingsModal({ open, onClose }: SettingsModalProps) {
         <Separator />
 
         {/* Editor Font */}
-        <FormField
+        <FormField onSurface
           label="Editor Font"
           description="Font family for the markdown editor"
           orientation="horizontal"
@@ -114,7 +114,7 @@ export function SettingsModal({ open, onClose }: SettingsModalProps) {
         <Separator />
 
         {/* Auto-save */}
-        <FormField
+        <FormField onSurface
           label="Auto-save"
           description="Automatically save changes after 1 second"
           orientation="horizontal"
@@ -129,7 +129,7 @@ export function SettingsModal({ open, onClose }: SettingsModalProps) {
         <Separator />
 
         {/* Vault Path */}
-        <FormField
+        <FormField onSurface
           label="Vault Path"
           description="Current working directory"
         >

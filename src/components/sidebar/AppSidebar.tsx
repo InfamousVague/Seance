@@ -3,6 +3,7 @@ import {
   Sidebar,
   SidebarSection,
   SidebarItem,
+  Button,
   Text,
   useThemeColors,
 } from "@wisp/ui";
@@ -40,7 +41,7 @@ export function AppSidebar({
       position="left"
       style={{
         paddingTop: 36,
-        borderRadius: 12,
+        borderRadius: 16,
         borderRight: "none",
       }}
     >
@@ -76,28 +77,40 @@ export function AppSidebar({
         </div>
       ) : null}
 
-      {/* Action items */}
-      <SidebarSection>
-        <SidebarItem
-          icon={<FolderOpen size={18} />}
-          label="Open Folder"
+      {/* Open Folder — primary button */}
+      <div
+        style={{
+          // @ts-expect-error WebkitAppRegion is non-standard
+          WebkitAppRegion: "no-drag",
+          padding: "4px 12px 8px",
+        }}
+      >
+        <Button
+          variant="primary"
+          size="sm"
+          iconLeft={<FolderOpen size={16} />}
+          fullWidth
           onClick={onOpenFolder}
-        />
-        {vaultPath && (
-          <>
-            <SidebarItem
-              icon={<FilePlus size={18} />}
-              label="New File"
-              onClick={onNewFile}
-            />
-            <SidebarItem
-              icon={<FolderPlus size={18} />}
-              label="New Folder"
-              onClick={onNewFolder}
-            />
-          </>
-        )}
-      </SidebarSection>
+        >
+          Open Folder
+        </Button>
+      </div>
+
+      {/* New File / New Folder actions */}
+      {vaultPath && (
+        <SidebarSection>
+          <SidebarItem
+            icon={<FilePlus size={18} />}
+            label="New File"
+            onClick={onNewFile}
+          />
+          <SidebarItem
+            icon={<FolderPlus size={18} />}
+            label="New Folder"
+            onClick={onNewFolder}
+          />
+        </SidebarSection>
+      )}
 
       {/* File tree — injected as children */}
       <div
