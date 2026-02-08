@@ -7,6 +7,7 @@ import { MarkdownEditor } from "./components/editor/MarkdownEditor";
 import { useSettings } from "./context/SettingsContext";
 import { useFileTree } from "./context/FileTreeContext";
 import { useAutoSave } from "./hooks/useAutoSave";
+import { SettingsModal } from "./components/settings/SettingsModal";
 
 export function App() {
   const colors = useThemeColors();
@@ -127,6 +128,12 @@ export function App() {
           </div>
         )}
       </main>
+
+      {/* Settings modal */}
+      <SettingsModal
+        open={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+      />
     </div>
   );
 }
