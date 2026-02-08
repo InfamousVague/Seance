@@ -7,7 +7,13 @@ import {
   Text,
   useThemeColors,
 } from "@wisp/ui";
-import { FolderOpen, Settings, FilePlus, FolderPlus } from "lucide-react";
+import {
+  FolderOpen,
+  Settings,
+  FilePlus,
+  FolderPlus,
+  Search,
+} from "lucide-react";
 
 interface AppSidebarProps {
   vaultPath: string;
@@ -50,7 +56,7 @@ export function AppSidebar({
         style={{
           // @ts-expect-error WebkitAppRegion is non-standard
           WebkitAppRegion: "drag",
-          padding: "8px 16px 12px",
+          padding: "8px 16px 4px",
           userSelect: "none",
         }}
       >
@@ -59,58 +65,80 @@ export function AppSidebar({
         </Text>
       </div>
 
-      {/* Vault info */}
+      {/* Vault info + action toolbar */}
       {vaultPath ? (
         <div
           style={{
             // @ts-expect-error WebkitAppRegion is non-standard
             WebkitAppRegion: "no-drag",
-            padding: "0 16px 8px",
+            padding: "4px 12px 0",
           }}
         >
-          <Text size="xs" color="tertiary">
-            {parentPath}/
-          </Text>
-          <Text size="sm" weight="bold" color="white">
-            {folderName}
-          </Text>
+          {/* Vault label */}
+          <div style={{ padding: "0 4px 6px" }}>
+            <Text size="xs" color="tertiary">
+              {parentPath}/
+            </Text>
+            <Text size="sm" weight="bold" color="white">
+              {folderName}
+            </Text>
+          </div>
+
+          {/* Obsidian-style action toolbar — compact icon row */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 2,
+              padding: "2px 0 6px",
+            }}
+          >
+            <Button
+              variant="tertiary"
+              onSurface
+              size="xs"
+              iconLeft={<FilePlus size={14} />}
+              title="New File (Cmd+N)"
+              onClick={onNewFile}
+            />
+            <Button
+              variant="tertiary"
+              onSurface
+              size="xs"
+              iconLeft={<FolderPlus size={14} />}
+              title="New Folder (Cmd+Shift+N)"
+              onClick={onNewFolder}
+            />
+            <Button
+              variant="tertiary"
+              onSurface
+              size="xs"
+              iconLeft={<FolderOpen size={14} />}
+              title="Open Folder"
+              onClick={onOpenFolder}
+            />
+          </div>
         </div>
-      ) : null}
-
-      {/* Open Folder — primary button */}
-      <div
-        style={{
-          // @ts-expect-error WebkitAppRegion is non-standard
-          WebkitAppRegion: "no-drag",
-          padding: "4px 12px 8px",
-        }}
-      >
-        <Button
-          variant="primary"
-          onSurface
-          size="sm"
-          iconLeft={<FolderOpen size={16} />}
-          fullWidth
-          onClick={onOpenFolder}
+      ) : (
+        /* No vault — show Open Folder button prominently */
+        <div
+          style={{
+            // @ts-expect-error WebkitAppRegion is non-standard
+            WebkitAppRegion: "no-drag",
+            padding: "8px 12px",
+          }}
         >
-          Open Folder
-        </Button>
-      </div>
-
-      {/* New File / New Folder actions */}
-      {vaultPath && (
-        <SidebarSection>
-          <SidebarItem
-            icon={<FilePlus size={18} />}
-            label="New File"
-            onClick={onNewFile}
-          />
-          <SidebarItem
-            icon={<FolderPlus size={18} />}
-            label="New Folder"
-            onClick={onNewFolder}
-          />
-        </SidebarSection>
+          <Button
+            variant="primary"
+            onSurface
+            size="sm"
+            iconLeft={<FolderOpen size={16} />}
+            fullWidth
+            onClick={onOpenFolder}
+          >
+            Open Folder
+          </Button>
+        </div>
       )}
 
       {/* File tree — injected as children */}

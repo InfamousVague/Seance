@@ -54,7 +54,7 @@ export function FileTree() {
   return (
     <TreeView
       nodes={nodes}
-      size="sm"
+      size="md"
       selectedId={selectedFile ?? undefined}
       onSelect={handleSelect}
       defaultExpanded={[]}
