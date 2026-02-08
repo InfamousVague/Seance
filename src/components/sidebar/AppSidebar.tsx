@@ -38,7 +38,11 @@ export function AppSidebar({
     <Sidebar
       width="default"
       position="left"
-      style={{ paddingTop: 36 }}
+      style={{
+        paddingTop: 36,
+        borderRadius: 12,
+        borderRight: "none",
+      }}
     >
       {/* Drag region — allows window dragging from sidebar header */}
       <div

@@ -77,6 +77,9 @@ export function App() {
         width: "100vw",
         backgroundColor: colors.background.canvas,
         overflow: "hidden",
+        padding: 8,
+        gap: 8,
+        boxSizing: "border-box",
       }}
     >
       <AppSidebar
@@ -96,6 +99,8 @@ export function App() {
           display: "flex",
           flexDirection: "column",
           overflow: "hidden",
+          borderRadius: 12,
+          backgroundColor: colors.background.canvas,
         }}
       >
         {!settings.vaultPath ? (
