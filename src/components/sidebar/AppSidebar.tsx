@@ -87,6 +87,7 @@ export function AppSidebar({
       >
         <Button
           variant="primary"
+          onSurface
           size="sm"
           iconLeft={<FolderOpen size={16} />}
           fullWidth
